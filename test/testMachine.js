@@ -17,13 +17,19 @@ describe('Machine loading', function() {
     const program = ['10 STAR'];
     assert.throws(() => machine.load(stitch(program)));
   });
-  
-  it('should throw an exception when there is a parse error in the arguments',() => {
+
+  it('should throw an exception when there is a parse error in the arguments', () => {
     const machine = new Machine();
     const missingArgumentProg = ['10 MOV A,'];
     const missingQuoteProg = ['10 PRN "HELLO'];
-    assert.throws(() => machine.load(stitch(missingArgumentProg)), InvalidInstructionException);
-    assert.throws(() => machine.load(stitch(missingQuoteProg)), InvalidInstructionException);
+    assert.throws(
+      () => machine.load(stitch(missingArgumentProg)),
+      InvalidInstructionException
+    );
+    assert.throws(
+      () => machine.load(stitch(missingQuoteProg)),
+      InvalidInstructionException
+    );
   });
 
   it('should ignore empty lines', function() {
@@ -621,7 +627,7 @@ describe('Error reporting while loading', function() {
       machine.load(stitch(program));
     } catch (e) {
       assert.equal('InvalidInstructionException', e.name);
-      assert.equal(1, e.lineNumber);
+      assert.equal('10', e.lineNumber);
       assert.equal('10 STAR', e.instruction);
     }
   });
@@ -634,7 +640,7 @@ describe('Error reporting while loading', function() {
       machine.load(stitch(program));
     } catch (e) {
       assert.equal('InvalidInstructionException', e.name);
-      assert.equal(2, e.lineNumber);
+      assert.equal('20', e.lineNumber);
       assert.equal('20 STO', e.instruction);
     }
   });
@@ -647,7 +653,7 @@ describe('Error reporting while loading', function() {
       machine.load(stitch(program));
     } catch (e) {
       assert.equal('InvalidInstructionException', e.name);
-      assert.equal(2, e.lineNumber);
+      assert.equal('20', e.lineNumber);
       assert.equal('20 MO A,B', e.instruction);
     }
   });

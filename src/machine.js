@@ -30,13 +30,13 @@ class Machine {
     this.lines = new Lines();
     let instructions = program.split(/\n/);
     instructions.forEach((instruction, index) => {
+      let { lineNumber, command, args, nonExecutableLine } = parse(instruction);
+      if (nonExecutableLine) return;
       let line;
       try {
-        let { lineNumber, command, args, nonExecutableLine } = parse(instruction);
-        if (nonExecutableLine) return;
         line = Line.create(lineNumber, command, args, index + 1, instruction);
       } catch (e) {
-        e.setLineNumber(index + 1);
+        e.setLineNumber(lineNumber);
         e.setInstruction(instruction);
         throw e;
       }

@@ -54,23 +54,33 @@ describe('should parse all legal forms', function() {
     assert.equal(true, nonExecutableLine);
   });
   it('should parse line with only line number and a newLine at end', function() {
-    let { nonExecutableLine } = parse(`10 \n`);
-    assert.equal(true, nonExecutableLine);
+    it('should parse line with only line number', function() {
+      let { nonExecutableLine } = parse(`10`);
+      assert.equal(true, nonExecutableLine);
+    });
+    it('should parse line with only line number with spaces', function() {
+      let { nonExecutableLine } = parse(`10  `);
+      assert.equal(true, nonExecutableLine);
+    });
+    it('should parse line with only line number with newLine at end', function() {
+      let { nonExecutableLine } = parse(`10 \n`);
+      assert.equal(true, nonExecutableLine);
+    });
   });
-});
 
-describe('should not parse illegal forms', function() {
-  it('should not parse illegal lines', function() {
-    assert.throws(() => parse('ADD A,A'), InvalidInstructionException);
-    assert.throws(() => parse('10ADD A,A'), InvalidInstructionException);
-    assert.throws(() => parse('10 ADDA,A'), InvalidInstructionException);
-    assert.throws(() => parse('10 ADD A,'), InvalidInstructionException);
-    assert.throws(() => parse('10 ADD ,A'), InvalidInstructionException);
-    assert.throws(() => parse('10+ADD ,A'), InvalidInstructionException);
-    assert.throws(() => parse('10 ADD -2,A'), InvalidInstructionException);
-    assert.throws(() => parse('10 ADD A,-2'), InvalidInstructionException);
-    assert.throws(() => parse('10 ADD A -2'), InvalidInstructionException);
-    assert.throws(() => parse('-10 ADD A -2'), InvalidInstructionException);
-    assert.throws(() => parse('10 MOV A,'), InvalidInstructionException);
+  describe('should not parse illegal forms', function() {
+    it('should not parse illegal lines', function() {
+      assert.throws(() => parse('ADD A,A'), InvalidInstructionException);
+      assert.throws(() => parse('10ADD A,A'), InvalidInstructionException);
+      assert.throws(() => parse('10 ADDA,A'), InvalidInstructionException);
+      assert.throws(() => parse('10 ADD A,'), InvalidInstructionException);
+      assert.throws(() => parse('10 ADD ,A'), InvalidInstructionException);
+      assert.throws(() => parse('10+ADD ,A'), InvalidInstructionException);
+      assert.throws(() => parse('10 ADD -2,A'), InvalidInstructionException);
+      assert.throws(() => parse('10 ADD A,-2'), InvalidInstructionException);
+      assert.throws(() => parse('10 ADD A -2'), InvalidInstructionException);
+      assert.throws(() => parse('-10 ADD A -2'), InvalidInstructionException);
+      assert.throws(() => parse('10 MOV A,'), InvalidInstructionException);
+    });
   });
 });
